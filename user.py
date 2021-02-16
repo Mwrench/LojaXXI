@@ -19,18 +19,20 @@ class User:
     def herokudb(self):
         from db import Database
         mydb = Database()
-        return psycopg2.connect(host=mydb.Host, database=mydb.Database, user=mydb.User, password=mydb.Password, sslmode='require')
+        return psycopg2.connect(host=mydb.Host, database=mydb.Database, user=mydb.User, password=mydb.Password,
+                                sslmode='require')
 
     def gravar(self, login, email, password):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
-        #db.execute("drop table usr")
-        db.execute("CREATE TABLE IF NOT EXISTS usr (id serial primary key, login text,email text, password text, nif text, nome text, morada char(60))")
+        # db.execute("drop table usr")
+        db.execute(
+            "CREATE TABLE IF NOT EXISTS usr (id serial primary key, login text,email text, password text, nif text, nome text, morada char(60))")
         db.execute("INSERT INTO usr VALUES (DEFAULT, %s, %s, %s)", (login, email, self.code(password),))
         ficheiro.commit()
         ficheiro.close()
 
-    def existe(self,login):
+    def existe(self, login):
         try:
             ficheiro = self.herokudb()
             db = ficheiro.cursor()
@@ -41,7 +43,7 @@ class User:
             valor = None
         return valor
 
-    def log(self,login, password):
+    def log(self, login, password):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
         db.execute("SELECT * FROM usr WHERE login = %s and password = %s", (login, self.code(password),))
@@ -49,7 +51,7 @@ class User:
         ficheiro.close()
         return valor
 
-    def alterar(self,login, password):
+    def alterar(self, login, password):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
         db.execute("UPDATE usr SET password = %s WHERE login = %s", (self.code(password), login))
