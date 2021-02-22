@@ -8,7 +8,7 @@ class User:
 
     def reset(self):
         self.id = None
-        self.login = ''
+        self.login = None
         self.email = ''
         self.password = ''
         self.nif = ''
@@ -19,7 +19,6 @@ class User:
         from db import Database
         mydb = Database()
         return psycopg2.connect(host=mydb.Host, database=mydb.Database, user=mydb.User, password=mydb.Password,
-
                                 sslmode='require')
 
     def apagarusr(self):
