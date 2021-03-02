@@ -29,16 +29,15 @@ class User:
             ficheiro.commit()
             ficheiro.close()
         except:
-            erro = "Tabela não existe"
+            erro = "A tabela não existe."
         return erro
 
     def gravar(self, login, email, password):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
-        # db.execute("drop table usr")
-        db.execute("CREATE TABLE IF NOT EXISTS usr "
-                   "(id serial primary key, login text,email text, password text, nif text, nome text, morada text)")
-        db.execute("INSERT INTO usr VALUES (DEFAULT, %s, %s, %s)", (login, email, self.code(password),))
+        db.execute("CREATE TABLE IF NOT EXISTS usr"
+                   "(id serial primary key,login text,email text, password text, nif text, nome text, morada text)")
+        db.execute("INSERT INTO usr VALUES (DEFAULT ,%s, %s, %s)", (login, email, self.code(password),))
         ficheiro.commit()
         ficheiro.close()
 
@@ -71,7 +70,7 @@ class User:
     def apaga(self, login):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
-        db.execute("DELETE FROM usr WHERE nome = %s", (login,))
+        db.execute("DELETE FROM usr WHERE login = %s", (login,))
         ficheiro.commit()
         ficheiro.close()
 
@@ -92,7 +91,7 @@ class User:
         try:
             ficheiro = self.herokudb()
             db = ficheiro.cursor()
-            db.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'usr';")
+            db.execute("SELECT column_name FROM information_schema.columns WHERE table_name   = 'usr';")
             valor = db.fetchall()
             ficheiro.close()
         except:

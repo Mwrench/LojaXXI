@@ -7,16 +7,16 @@ class Artigos:
         self.reset()
 
     def reset(self):
-        self.id = None
-        self.category = None
-        self.brand = None
-        self.description = None
-        self.price = None
-        self.reference = None
-        self.ean = None  # european article number
-        self.stock = None
-        self.created = None
-        self.updated = None
+        self.id = None  # Número do produto
+        self.category = None  # Categoria
+        self.brand = None  # Marca
+        self.description = None  # Descrição
+        self.price = None  # Preço
+        self.reference = None  # Referência
+        self.ean = None  # European Article Number
+        self.stock = None  # Quantidade de artigos
+        self.created = None  # Data de criação
+        self.updated = None  # Data de alteração
 
     def herokudb(self):
         from db import Database
@@ -24,14 +24,31 @@ class Artigos:
         return psycopg2.connect(host=mydb.Host, database=mydb.Database, user=mydb.User, password=mydb.Password,
                                 sslmode='require')
 
+    def select(self, id):
+        erro = None
+        try:
+            ficheiro = self.herokudb()
+            db = ficheiro.cursor()
+            db.execute("select * from artigos where id = %s", (id,))
+            valor = db.fetchone()
+            ficheiro.close()
+            self.id = valor[0]  # Número do produto
+            self.category = valor[1]  # Categoria
+            self.brand = valor[2]  # Marca
+            self.description = valor[3]  # Descrição
+            self.price = valor[4]  # Preço
+        except:
+            self.reset()
+            erro = "O artigo não existe!"
+        return erro
+
     def inserirA(self, category, brand, description, price):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
-        # db.execute("drop table usr")
-        db.execute("CREATE TABLE IF NOT EXISTS artigos "
-                   "(id serial primary key, category text,brand text, description text, price numeric,"
-                   "reference text, ean text, stocl int, created date, updated date)")
-        db.execute("INSERT INTO artigos VALUES (DEFAULT, %s, %s, %s, %s)", (category, brand, description, price,))
+        db.execute("CREATE TABLE IF NOT EXISTS artigos"
+                   "(id serial primary key, category text, brand text, description text, price numeric,"
+                   "reference text, ean text, stock int, created date, updated date)")
+        db.execute("INSERT INTO artigos VALUES (DEFAULT ,%s, %s, %s, %s)", (category, brand, description, price,))
         ficheiro.commit()
         ficheiro.close()
 
@@ -43,7 +60,7 @@ class Artigos:
             ficheiro.commit()
             ficheiro.close()
         except:
-            erro = "Tabela não existe"
+            erro = "A tabela não existe."
         return erro
 
     def existe(self, login):
@@ -65,17 +82,17 @@ class Artigos:
         ficheiro.close()
         return valor
 
-    def alterar(self, login, password):
+    def alterar(self, id, price):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
-        db.execute("UPDATE usr SET password = %s WHERE login = %s", (self.code(password), login))
+        db.execute("UPDATE artigos SET price = %s WHERE id = %s", (price, id))
         ficheiro.commit()
         ficheiro.close()
 
-    def apaga(self, login):
+    def apaga(self, id):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
-        db.execute("DELETE FROM usr WHERE nome = %s", (login,))
+        db.execute("DELETE FROM artigos WHERE id = %s", (id,))
         ficheiro.commit()
         ficheiro.close()
 
@@ -96,7 +113,7 @@ class Artigos:
         try:
             ficheiro = self.herokudb()
             db = ficheiro.cursor()
-            db.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'artigos';")
+            db.execute("SELECT column_name FROM information_schema.columns WHERE table_name   = 'artigos';")
             valor = db.fetchall()
             ficheiro.close()
         except:

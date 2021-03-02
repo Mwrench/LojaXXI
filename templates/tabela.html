@@ -1,12 +1,10 @@
 {% extends 'layout.html' %}
-
 {% block body %}
     <p><br></p>
     <h2>{{ title }}</h2>
     <p><br></p>
-
     <table border="16" align="center" ; cellpadding="8">
-        <tr style="font-weight: bold; background-color: yellowgreen">
+        <tr style="font-weight: bold; background-color: cornflowerblue">
             {% for co in range(campos|count) %}
                 <td>
                     {{ campos[co][0].capitalize() }}
@@ -24,5 +22,4 @@
             </tr>
         {% endfor %}
     </table>
-
 {% endblock %}
