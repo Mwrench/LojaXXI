@@ -36,8 +36,8 @@ class User:
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
         # db.execute("drop table usr")
-        db.execute(
-            "CREATE TABLE IF NOT EXISTS usr (id serial primary key, login text,email text, password text, nif text, nome text, morada char(60))")
+        db.execute("CREATE TABLE IF NOT EXISTS usr "
+                   "(id serial primary key, login text,email text, password text, nif text, nome text, morada text)")
         db.execute("INSERT INTO usr VALUES (DEFAULT, %s, %s, %s)", (login, email, self.code(password),))
         ficheiro.commit()
         ficheiro.close()
@@ -46,7 +46,7 @@ class User:
         try:
             ficheiro = self.herokudb()
             db = ficheiro.cursor()
-            db.execute("SELECT * FROM usr WHERE nome = %s", (login,))
+            db.execute("SELECT * FROM usr WHERE login = %s", (login,))
             valor = db.fetchone()
             ficheiro.close()
         except:
@@ -75,6 +75,7 @@ class User:
         ficheiro.commit()
         ficheiro.close()
 
+    @property
     def lista(self):
         try:
             ficheiro = self.herokudb()

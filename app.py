@@ -4,11 +4,10 @@ from user import User
 app = Flask(__name__)
 usr = User()
 
-
 @app.route('/tabela')
 def tabela():
-    dados = usr.lista()
-    return render_template('Utilizadores/tabela.html', tabela=dados, max=len(dados), usr = usr)
+    dados = usr.lista
+    return render_template('Utilizadores/tabela.html', tabela=dados, max=len(dados), usr=usr)
 
 
 @app.route('/registo', methods=['GET', 'POST'])
@@ -24,14 +23,14 @@ def route():
         elif v3 != v4:
             erro = 'A palavra passe não coincide.'
         else:
-            erro = 'Utilizador criado com sucesso.'
+            erro = 'Utilizador criado com Sucesso.'
             usr.gravar(v1, v2, v3)
-    return render_template('Utilizadores/registo.html', erro=erro, usr = usr)
+    return render_template('Utilizadores/registo.html', erro=erro, usr=usr)
 
 
 @app.route('/')
 def index():
-    return render_template('index.html', usr = usr)
+    return render_template('index.html', usr=usr)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -47,7 +46,8 @@ def login():
         else:
             usr.login = v1
             erro = 'Bem-Vindo.'
-    return render_template('Utilizadores/login.html', erro=erro, usr = usr)
+    return render_template('Utilizadores/login.html', erro=erro, usr=usr)
+
 
 @app.route('/logout')
 def logout():
@@ -68,7 +68,7 @@ def apagar():
         else:
             usr.apaga(v1)
             erro = 'Conta Eliminada com Sucesso.'
-    return render_template('Utilizadores/apagar.html', erro=erro, usr = usr)
+    return render_template('Utilizadores/apagar.html', erro=erro, usr=usr)
 
 
 @app.route('/newpasse', methods=['GET', 'POST'])
@@ -87,7 +87,7 @@ def newpasse():
             erro = 'A palavra passe não coincide.'
         else:
             usr.alterar(v1, v2)
-    return render_template('Utilizadores/newpasse.html', erro=erro, usr = usr)
+    return render_template('Utilizadores/newpasse.html', erro=erro, usr=usr)
 
 
 if __name__ == '__main__':
