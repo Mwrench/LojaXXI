@@ -40,7 +40,6 @@ def editarA():
             erro = art.select(v1)
     return render_template('Artigos/editarA.html', erro=erro, usr=usr, art=art)
 
-
 @app.route('/tabela')
 def tabela():
     title = "Lista de Utilizadores"
@@ -51,6 +50,7 @@ def tabela():
 def consultarA():
     title = "Lista de Artigos"
     return render_template('tabela.html', title=title, tabela=art.lista, campos=art.campos, usr=usr)
+
 
 
 @app.route('/registo', methods=['GET', 'POST'])
@@ -66,8 +66,8 @@ def route():
         elif v3 != v4:
             erro = 'A palavra passe não coincide.'
         else:
-            erro = 'Utilizador criado com Sucesso.'
             usr.gravar(v1, v2, v3)
+            erro = 'Utilizador criado com sucesso.'
     return render_template('Utilizadores/registo.html', erro=erro, usr=usr)
 
 

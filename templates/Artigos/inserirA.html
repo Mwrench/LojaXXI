@@ -4,20 +4,24 @@
 
 <h2>Inserir Artigo</h2>
 <fieldset>
-    <legend>Introduza o novo Artigo</legend>
+    <legend>Introduza o novo artigo</legend>
     <form method="post">
         <h4>Categoria</h4>
-        <input list="category" name="category" required>
-        <datalist id="category">
-            {% set lcat = art.listaC %}
-            {% for item in range(lcat|count) %}
-                <option value="{{ lcat[item][0] }}">
-            {% endfor %}
-        </datalist>
-
-
+            <input list="category" name="category" required>
+            <datalist id="category">
+                {% set lcat = art.listaC %}
+                {% for item in range(lcat|count) %}
+                    <option value="{{ lcat[item][0] }}">
+                {% endfor %}
+            </datalist>
         <h4>Marca</h4>
-        <input type='text' name='brand' required>
+            <input list="brand" name="brand" required>
+            <datalist id="brand">
+                {% set lmar = art.listaM %}
+                {% for item in range(lmar|count) %}
+                    <option value="{{ lmar[item][0] }}">
+                {% endfor %}
+            </datalist>
         <h4>Descrição</h4>
         <input type='text' name='description' required>
         <h4>Preço</h4>

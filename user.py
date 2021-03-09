@@ -15,11 +15,12 @@ class User:
         self.nome = ''
         self.morada = ''
 
+
     def herokudb(self):
         from db import Database
         mydb = Database()
-        return psycopg2.connect(host=mydb.Host, database=mydb.Database, user=mydb.User, password=mydb.Password,
-                                sslmode='require')
+        return psycopg2.connect(host=mydb.Host, database=mydb.Database, user=mydb.User, password=mydb.Password, sslmode='require')
+
 
     def apagarusr(self):
         try:
@@ -29,17 +30,18 @@ class User:
             ficheiro.commit()
             ficheiro.close()
         except:
-            erro = "A tabela não existe."
+            erro = 'A tabela não existe'
         return erro
+
 
     def gravar(self, login, email, password):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
-        db.execute("CREATE TABLE IF NOT EXISTS usr"
-                   "(id serial primary key,login text,email text, password text, nif text, nome text, morada text)")
-        db.execute("INSERT INTO usr VALUES (DEFAULT ,%s, %s, %s)", (login, email, self.code(password),))
+        db.execute("CREATE TABLE IF NOT EXISTS usr (id serial primary key, login text,email text, password text, nif text, nome text, morada text)")
+        db.execute("INSERT INTO usr VALUES (DEFAULT, %s, %s, %s)", (login, email, self.code(password),))
         ficheiro.commit()
         ficheiro.close()
+
 
     def existe(self, login):
         try:
@@ -52,6 +54,7 @@ class User:
             valor = None
         return valor
 
+
     def log(self, login, password):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
@@ -60,12 +63,14 @@ class User:
         ficheiro.close()
         return valor
 
+
     def alterar(self, login, password):
         ficheiro = self.herokudb()
         db = ficheiro.cursor()
         db.execute("UPDATE usr SET password = %s WHERE login = %s", (self.code(password), login))
         ficheiro.commit()
         ficheiro.close()
+
 
     def apaga(self, login):
         ficheiro = self.herokudb()
@@ -91,12 +96,13 @@ class User:
         try:
             ficheiro = self.herokudb()
             db = ficheiro.cursor()
-            db.execute("SELECT column_name FROM information_schema.columns WHERE table_name   = 'usr';")
+            db.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'usr';")
             valor = db.fetchall()
             ficheiro.close()
         except:
             valor = ""
         return valor
+
 
     @staticmethod
     def code(passe):
