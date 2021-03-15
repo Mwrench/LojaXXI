@@ -2,11 +2,11 @@
 
 {% block body %}
 
-<h2>Inserir Artigo</h2>
-<fieldset>
-    <legend>Introduza o novo artigo</legend>
-    <form method="post">
-        <h4>Categoria</h4>
+    <h2>Inserir Artigo</h2>
+    <fieldset>
+        <legend>Introduza o novo Artigo</legend>
+        <form method="post">
+            <h4>Categoria</h4>
             <input list="category" name="category" required>
             <datalist id="category">
                 {% set lcat = art.listaC %}
@@ -14,21 +14,21 @@
                     <option value="{{ lcat[item][0] }}">
                 {% endfor %}
             </datalist>
-        <h4>Marca</h4>
+            <h4>Marca</h4>
             <input list="brand" name="brand" required>
             <datalist id="brand">
-                {% set lmar = art.listaM %}
-                {% for item in range(lmar|count) %}
-                    <option value="{{ lmar[item][0] }}">
+                {% set lcat = art.listaM %}
+                {% for item in range(lcat|count) %}
+                    <option value="{{ lcat[item][0] }}">
                 {% endfor %}
             </datalist>
-        <h4>Descrição</h4>
-        <input type='text' name='description' required>
-        <h4>Preço</h4>
-        <input type='text' name='price' required>
-        <p><br></p>
-        <input type='submit' value="Submeter">
-    </form>
-</fieldset>
-{% if erro %}<h1>{{ erro }}</h1>{% endif %}
+            <h4>Descrição</h4>
+            <input type='text' name='description' required>
+            <h4>Preço</h4>
+            <input type='text' name='price' required>
+            <p><br></p>
+            <input type='submit' value="Submeter">
+        </form>
+    </fieldset>
+    {% if erro %}<h1>{{ erro }}</h1>{% endif %}
 {% endblock %}
